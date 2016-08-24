@@ -77,13 +77,13 @@ var Alert = (function(window, undefined) {
   function drawWidget(data) {
     if (!data) return;
     var margin = {
-          top: 20,
+          top: 50,
           right: 20,
           bottom: 100,
           left: 40
         },
         width = 960 - margin.left - margin.right,
-        height = 250 - margin.top - margin.bottom,
+        height = 300 - margin.top - margin.bottom,
         viewBoxWidth = width + margin.left + margin.right,
         viewBoxHeight = height + margin.top + margin.bottom,
         baseValue = 100,
@@ -113,20 +113,31 @@ var Alert = (function(window, undefined) {
     x.domain(data.map(function(d) { return d.id.timestamp; }));
     y.domain([d3.min(data, function(d) { return d.predicted; }), d3.max(data, function(d) { return d.predicted; })]);
 
-
-    var line = svg.append("line")
-      .attr("class", "line line-alert")
-      .attr("x1", 0)
-      .attr("y1", y(1020))
-      .attr("x2", width)
-      .attr("y2", y(1020));
-
-    var line = svg.append("line")
-      .attr("class", "line line-flood")
-      .attr("x1", 0)
-      .attr("y1", y(1055))
-      .attr("x2", width)
-      .attr("y2", y(1055));
+    // Draw lines
+    svg.append("line")
+      .attr({
+        "x1": 0,
+        "y1": y(1020),
+        "x2": width+10,
+        "y2": y(1020),
+        "fill": "none",
+        "stroke-width": "2px",
+        "opacity": 0.4,
+        "stroke-dasharray": 10,
+        "stroke": color("ALERTA")
+      });
+    svg.append("line")
+      .attr({
+        "fill": "none",
+        "x1": 0,
+        "y1": y(1055),
+        "x2": width+10,
+        "y2": y(1055),
+        "stroke-width": "2px",
+        "opacity": 0.4,
+        "stroke-dasharray": 10,
+        "stroke": color("INUNDACAO")
+      });
 
     var tooltip = svg.append("g")
       .attr("class", "alert-tooltip")
@@ -190,7 +201,7 @@ var Alert = (function(window, undefined) {
                 .duration(200)
                 .style("opacity", 1);
             var positionX = x(d.id.timestamp) - tooltipWidth/2 - x.rangeBand()/2;
-            var positionY = y(d.predicted) - tooltipHeight*1.5;
+            var positionY = y(d.predicted) - tooltipHeight*1.6;
             tooltip.attr("transform", "translate(" + positionX + "," + positionY + ")");
             })
         .on("mouseout", function(d) {
@@ -217,7 +228,7 @@ var Alert = (function(window, undefined) {
             var date = new Date(d.id.timestamp*1000);
             var hours = date.getHours();
             var minutes = "0" + date.getMinutes();
-            if (minutes === "00") {
+            if (minutes === "00" && i !== data.length-1) {
               return hours + ':' + minutes.substr(-2);
             }
           });
