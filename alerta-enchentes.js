@@ -62,27 +62,126 @@ var Alert = (function(window, undefined) {
     Alert.$ = Alert.jQuery = jQuery.noConflict(true);
     $.ajax({
       method: 'GET',
-      url: 'http://alertas-enchentes-api.herokuapp.com/station/13600002/prediction?timestamp=1461592800',
+      url: 'http://alertas-enchentes-api.herokuapp.com/station/13600002/prediction?timestamp='+params.timestamp,
       data: {},
-      sucess: function() {
-        callback();
+      sucess: function(data) {
+        callback(data);
       },
       error: function(error) {
-        console.log(error);
-        callback();
+        var data = JSON.parse('[{"id":{"stationId":13600002,"timestamp":1461592800},"measured":749,"predicted":1029,"corrected":1350,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461593700},"measured":747,"predicted":1031,"corrected":1354,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461594600},"measured":747,"predicted":1035,"corrected":1359,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461595500},"measured":747,"predicted":1038,"corrected":1366,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461596400},"measured":747,"predicted":1042,"corrected":1375,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461597300},"measured":746,"predicted":1045,"corrected":1380,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461598200},"measured":745,"predicted":1048,"corrected":1386,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461599100},"measured":746,"predicted":1051,"corrected":1391,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461600000},"measured":746,"predicted":1055,"corrected":1399,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461600900},"measured":745,"predicted":1056,"corrected":1400,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461601800},"measured":745,"predicted":1060,"corrected":1408,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461602700},"measured":743,"predicted":1062,"corrected":1409,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461603600},"measured":743,"predicted":1065,"corrected":1416,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461604500},"measured":742,"predicted":1066,"corrected":1418,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461605400},"measured":743,"predicted":1072,"corrected":1430,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461606300},"measured":741,"predicted":1073,"corrected":1432,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461607200},"measured":740,"predicted":1077,"corrected":1438,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461608100},"measured":740,"predicted":1078,"corrected":1440,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461609000},"measured":739,"predicted":1078,"corrected":1439,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461609900},"measured":739,"predicted":1083,"corrected":1451,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461610800},"measured":738,"predicted":1084,"corrected":1451,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461611700},"measured":737,"predicted":1088,"corrected":1458,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461612600},"measured":737,"predicted":1090,"corrected":1462,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461613500},"measured":736,"predicted":1091,"corrected":1464,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461614400},"measured":735,"predicted":1096,"corrected":1475,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461615300},"measured":735,"predicted":1097,"corrected":1475,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461616200},"measured":734,"predicted":1099,"corrected":1480,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461617100},"measured":734,"predicted":1103,"corrected":1486,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461618000},"measured":733,"predicted":1104,"corrected":1488,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461618900},"measured":732,"predicted":1108,"corrected":1496,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461619800},"measured":732,"predicted":1110,"corrected":1499,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461620700},"measured":732,"predicted":1112,"corrected":1503,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461621600},"measured":730,"predicted":1116,"corrected":1511,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461622500},"measured":730,"predicted":1116,"corrected":1511,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461623400},"measured":730,"predicted":1119,"corrected":1517,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461624300},"measured":729,"predicted":1120,"corrected":1518,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461625200},"measured":729,"predicted":1121,"corrected":1520,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461626100},"measured":728,"predicted":1123,"corrected":1524,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461627000},"measured":728,"predicted":1125,"corrected":1529,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461627900},"measured":726,"predicted":1129,"corrected":1535,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461628800},"measured":726,"predicted":1129,"corrected":1536,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461629700},"measured":726,"predicted":1129,"corrected":1537,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461630600},"measured":725,"predicted":1133,"corrected":1544,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461631500},"measured":725,"predicted":1133,"corrected":1542,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461632400},"measured":724,"predicted":1137,"corrected":1550,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461633300},"measured":724,"predicted":1136,"corrected":1549,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461634200},"measured":723,"predicted":1137,"corrected":1551,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461635100},"measured":723,"predicted":1140,"corrected":1558,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461636000},"measured":721,"predicted":1142,"corrected":1560,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"}]');
+        callback(data);
       }
     });
   }
 
-  function drawWidget() {
-    var container = document.getElementById("alerta-enchentes");
+  function drawWidget(data) {
+    var margin = {
+          top: 20,
+          right: 20,
+          bottom: 100,
+          left: 40
+        },
+        width = 960 - margin.left - margin.right,
+        height = 250 - margin.top - margin.bottom,
+        viewBoxWidth = width + margin.left + margin.right,
+        viewBoxHeight = height + margin.top + margin.bottom,
+        baseValue = 100;
 
-    container.innerHTML =
-      "<div>" +
-      "  <h3>Here is the widget</h3>" +
-      "</div>";
-    var scg = d3.select("#alerta-enchentes")
-      .append("svg");
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], 0);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    var svg = d3.select("#alerta-enchentes").append("svg")
+        .attr("width", "100%")
+        .attr("viewBox", "0 0 "+viewBoxWidth+" "+viewBoxHeight)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.json(data, type, function(error, data) {
+      if (error) throw error;
+
+      x.domain(data.map(function(d) { return d.hour; }));
+      y.domain([d3.min(data, function(d) { return d.predicted; }), d3.max(data, function(d) { return d.predicted; })]);
+
+      // svg.append("g")
+      //     .attr("class", "x axis")
+      //     .attr("transform", "translate(0," + height + ")")
+      //     .call(xAxis);
+
+      // svg.append("g")
+      //     .attr("class", "y axis")
+      //     .call(yAxis);
+
+      var line = svg.append("line")
+        .attr("class", "line line-alert")
+        .attr("x1", 0)
+        .attr("y1", y(1350))
+        .attr("x2", width)
+        .attr("y2", y(1350));
+
+      var line = svg.append("line")
+        .attr("class", "line line-flood")
+        .attr("x1", 0)
+        .attr("y1", y(1400))
+        .attr("x2", width)
+        .attr("y2", y(1400));
+
+      var bar = svg.selectAll(".bar")
+          .data(data);
+        // Render bars
+        bar.enter().append("rect")
+          .attr("class", function(d) { return "bar "+color(d.predicted); })
+          .attr("x", function(d) { return x(d.hour); })
+          .attr("width", x.rangeBand())
+          .attr("y", function(d) { return y(d.predicted); })
+          .attr("height", function(d) { return height - y(d.predicted) + baseValue; });
+        // Render top bars
+        bar.enter().append("rect")
+          .attr("class", function(d) { return "bar-top "+color(d.predicted); })
+          .attr("x", function(d) { return x(d.hour); })
+          .attr("width", x.rangeBand())
+          .attr("y", function(d) { return y(d.predicted); })
+          .attr("height", 2);
+        // Render values
+        // bar.enter().append("text")
+        //   .attr("class", "bar-value")
+        //   .attr("x", function(d) { return x(d.hour)+x.rangeBand()/2; })
+        //   .attr("y", function(d) { return y(d.predicted)-5; })
+        //   .attr("text-anchor", "middle")
+        //   .text(function(d) { return d.predicted; });
+        bar.enter().append("text")
+          .attr("class", "bar-value")
+          .attr("x", function(d) { return x(d.hour)+x.rangeBand()/2; })
+          .attr("y", height + baseValue - 5)
+          .attr("text-anchor", "middle")
+          .text(function(d) { return d.hour; });
+
+    });
+
+    function type(d) {
+      d.predicted = +d.predicted;
+      return d;
+    }
+
+    function color(d) {
+      if (d < 1350) {
+        return "bar-normal";
+      } else if (d >= 1350 && d < 1400) {
+        return "bar-alert";
+      } else {
+        return "bar-flood";
+      }
+    }
   }
 
   loadScript('//d3js.org/d3.v3.min.js', function() {
