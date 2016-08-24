@@ -3,14 +3,15 @@ var Alert = (function(window, undefined) {
   function loadSupportingFiles(callback) {}
   function getWidgetParams() {}
   function getData(params, callback) {}
-  function drawWidget() {}
+  function drawWidget() {
+    var container = document.getElementById("alerta-enchentes");
+    container.innerHTML =
+      "<div>" +
+      "  <h3>Here is the widget</h3>" +
+      "</div>";
+  }
 
-  loadSupportingFiles(function() {
-    var params = getWidgetParams();
-    getData(params, function() {
-      drawWidget();
-    });
-  });
+  drawWidget();
 
   return Alert;
 })(window);
