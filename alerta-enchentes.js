@@ -86,7 +86,9 @@ var Alert = (function(window, undefined) {
         height = 250 - margin.top - margin.bottom,
         viewBoxWidth = width + margin.left + margin.right,
         viewBoxHeight = height + margin.top + margin.bottom,
-        baseValue = 100;
+        baseValue = 100,
+        tooltipWidth = 80,
+        tooltipHeight = 50;
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0, width], 0);
@@ -108,64 +110,53 @@ var Alert = (function(window, undefined) {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // var tooltip = d3.select("#alerta-enchentes").append("div")
-    //   .style({
-    //       "position": "absolute",
-    //       "top": "10px",
-    //       "left": "10px",
-    //       "background-color": "#fff",
-    //       "color": "red",
-    //       "opacity": "1"})
-    //   .html("<p>tooltip</p>");
+    x.domain(data.map(function(d) { return d.id.timestamp; }));
+    y.domain([d3.min(data, function(d) { return d.predicted; }), d3.max(data, function(d) { return d.predicted; })]);
+
+
+    var line = svg.append("line")
+      .attr("class", "line line-alert")
+      .attr("x1", 0)
+      .attr("y1", y(1020))
+      .attr("x2", width)
+      .attr("y2", y(1020));
+
+    var line = svg.append("line")
+      .attr("class", "line line-flood")
+      .attr("x1", 0)
+      .attr("y1", y(1055))
+      .attr("x2", width)
+      .attr("y2", y(1055));
+
     var tooltip = svg.append("g")
-      .attr("class", "alert-tooltip");
+      .attr("class", "alert-tooltip")
+      .attr("opacity", 0);
     var tooltipRect = tooltip.append("rect")
       .attr({
-        "width": "97",
-        "height": "67",
+        "width": tooltipWidth,
+        "height": tooltipHeight,
         "x": margin.left/2,
         "y": margin.top/2,
         "fill": "#fff"
       });
     var tooltipText = tooltip.append("text")
       .attr({
-        "x": margin.left/2 + 34.992188,
-        "y": margin.top/2 + 48.5,
-        "stroke": "#000",
+        "x": margin.left/2 + 22,
+        "y": margin.top/2 + 40,
         "fill": "#000",
-        "font-size": "14",
-        "font-family": "sans-serif"
+        "font-size": "12",
+        "font-family": "sans"
       })
-      .text("11:00");
+      .text("");
     var tooltipText2 = tooltip.append("text")
       .attr({
-        "x": margin.left/2 + 22.203125,
-        "y": margin.top/2 + 30.5,
-        "stroke": "#000",
+        "x": margin.left/2 + 17,
+        "y": margin.top/2 + 25,
         "fill": "#000",
-        "font-size": "25",
-        "font-family": "sans-serif"
+        "font-size": "18",
+        "font-family": "sans"
       })
-      .text("1530");
-      // <g>
-      //  <title>tooltip</title>
-      //  <rect fill="#fff" id="canvas_background" height="62" width="102" y="-1" x="-1"/>
-      //  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
-      //   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
-      //  </g>
-      // </g>
-      // <g>
-      //  <title>tooltip text</title>
-      //  <rect id="svg_1" height="57" width="97" y="1.5" x="1.5" stroke-width="3" stroke="#000" fill="#fff"/>
-      //  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="12" id="svg_2" y="48.5" x="34.992188" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">11:00</text>
-      //  <text xml:space="preserve" text-anchor="start" ="Helvetica, Arial, sans-serif" font-size="25" id="svg_3" y="30.5" x="22.203125" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">1500</text>
-      // </g>
-
-    // d3.json(data, type, function(error, data) {
-    //   if (error) throw error;
-
-      x.domain(data.map(function(d) { return d.id.timestamp; }));
-      y.domain([d3.min(data, function(d) { return d.predicted; }), d3.max(data, function(d) { return d.predicted; })]);
+      .text("");
 
       // svg.append("g")
       //     .attr("class", "x axis")
@@ -175,20 +166,6 @@ var Alert = (function(window, undefined) {
       // svg.append("g")
       //     .attr("class", "y axis")
       //     .call(yAxis);
-
-      var line = svg.append("line")
-        .attr("class", "line line-alert")
-        .attr("x1", 0)
-        .attr("y1", y(1350))
-        .attr("x2", width)
-        .attr("y2", y(1350));
-
-      var line = svg.append("line")
-        .attr("class", "line line-flood")
-        .attr("x1", 0)
-        .attr("y1", y(1400))
-        .attr("x2", width)
-        .attr("y2", y(1400));
 
       var bar = svg.selectAll(".bar")
           .data(data);
@@ -207,13 +184,14 @@ var Alert = (function(window, undefined) {
             var hours = date.getHours();
             var minutes = "0" + date.getMinutes();
             var time = hours + ':' + minutes.substr(-2);
+            tooltipText.text(time);
+            tooltipText2.text(d.predicted);
             tooltip.transition()
                 .duration(200)
                 .style("opacity", 1);
-            tooltipText.text(time);
-            tooltipText2.text(d.predicted);
-                // .style("top",  (d3.event.pageY - 28) + "px")
-                // .style("left", (d3.event.pageX) + "px");
+            var positionX = x(d.id.timestamp) - tooltipWidth/2 - x.rangeBand()/2;
+            var positionY = y(d.predicted) - tooltipHeight*1.5;
+            tooltip.attr("transform", "translate(" + positionX + "," + positionY + ")");
             })
         .on("mouseout", function(d) {
           d3.select(this).transition().duration(200).style("opacity", 0.4);
@@ -228,20 +206,14 @@ var Alert = (function(window, undefined) {
           .attr("y", function(d) { return y(d.predicted); })
           .attr("fill", function(d) { return color(d.predictedStatus); })
           .attr("height", 2);
-        // Render values
-        // bar.enter().append("text")
-        //   .attr("fill", "red")
-        //   .attr("x", function(d) { return x(d.id.timestamp)+x.rangeBand()/2; })
-        //   .attr("y", function(d) { return y(d.predicted)-5; })
-        //   .attr("text-anchor", "middle")
-        //   .text(function(d) { return d.predicted; });
+        // Render time
         bar.enter().append("text")
           .attr("fill", "#fff")
           .attr("font-size", "12px")
           .attr("text-anchor", "start")
           .attr("x", function(d) { return x(d.id.timestamp)+x.rangeBand()+4; })
           .attr("y", height + baseValue - 5)
-          .text(function(d) {
+          .text(function(d, i) {
             var date = new Date(d.id.timestamp*1000);
             var hours = date.getHours();
             var minutes = "0" + date.getMinutes();
@@ -249,8 +221,6 @@ var Alert = (function(window, undefined) {
               return hours + ':' + minutes.substr(-2);
             }
           });
-
-    // });
 
     function type(d) {
       d.predicted = +d.predicted;
