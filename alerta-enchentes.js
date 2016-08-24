@@ -58,24 +58,40 @@ var Alert = (function(window, undefined) {
     return params;
   }
 
-  function getData(params, callback) {}
+  function getData(params, callback) {
+    Alert.$ = Alert.jQuery = jQuery.noConflict(true);
+    $.ajax({
+      method: 'GET',
+      url: 'http://alertas-enchentes-api.herokuapp.com/station/13600002/prediction?timestamp=1461592800',
+      data: {},
+      sucess: function() {
+        callback();
+      },
+      error: function(error) {
+        console.log(error);
+        callback();
+      }
+    });
+  }
+
   function drawWidget() {
-    var url = getScriptUrl();
-    var params = getUrlParameters(url);
     var container = document.getElementById("alerta-enchentes");
 
     container.innerHTML =
       "<div>" +
       "  <h3>Here is the widget</h3>" +
-      "  <p>URL "+ url +"</p>" +
-      "  <p>Timestamp "+ params.timestamp +"</p>" +
       "</div>";
     var scg = d3.select("#alerta-enchentes")
       .append("svg");
   }
+
   loadScript('//d3js.org/d3.v3.min.js', function() {
-    drawWidget();
-  })
+    loadScript('//code.jquery.com/jquery-3.1.0.min.js', function() {
+      var url = getScriptUrl();
+      var params = getUrlParameters(url);
+      getData(params, drawWidget);
+    });
+  });
 
   return Alert;
 })(window);
