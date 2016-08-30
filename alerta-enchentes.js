@@ -80,7 +80,7 @@ var Alert = (function(window, undefined) {
     if (!data) return;
     var margin = {
           top: 50,
-          right: 20,
+          right: 10,
           bottom: 100,
           left: 10
         },
