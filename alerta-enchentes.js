@@ -60,24 +60,57 @@ var Alert = (function(window, undefined) {
 
   function getData(params, callback) {
     Alert.$ = Alert.jQuery = jQuery.noConflict(true);
+
+    var timestamp = parseInt(params.timestamp);
+
     $.ajax({
-      method: 'GET',
-      url: 'http://alertas-enchentes-api.herokuapp.com/station/13600002/prediction?timestamp='+params.timestamp,
+      method: "GET",
+      url: "http://alertas-enchentes-api.herokuapp.com/station/13600002/prediction",
       data: {},
-      sucess: function(data) {
-        callback(data);
+      sucess: function(river) {
+        callback(river, timestamp);
       },
       error: function(error) {
-        // var data = JSON.parse('[{"id":{"stationId":13600002,"timestamp":1461592800},"measured":749,"predicted":1029,"corrected":1350,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461593700},"measured":747,"predicted":1031,"corrected":1354,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461594600},"measured":747,"predicted":1035,"corrected":1359,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461595500},"measured":747,"predicted":1038,"corrected":1366,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461596400},"measured":747,"predicted":1042,"corrected":1375,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461597300},"measured":746,"predicted":1045,"corrected":1380,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461598200},"measured":745,"predicted":1048,"corrected":1386,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461599100},"measured":746,"predicted":1051,"corrected":1391,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461600000},"measured":746,"predicted":1055,"corrected":1399,"measuredStatus":"NORMAL","predictedStatus":"ALERTA"},{"id":{"stationId":13600002,"timestamp":1461600900},"measured":745,"predicted":1056,"corrected":1400,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461601800},"measured":745,"predicted":1060,"corrected":1408,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461602700},"measured":743,"predicted":1062,"corrected":1409,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461603600},"measured":743,"predicted":1065,"corrected":1416,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461604500},"measured":742,"predicted":1066,"corrected":1418,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461605400},"measured":743,"predicted":1072,"corrected":1430,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461606300},"measured":741,"predicted":1073,"corrected":1432,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461607200},"measured":740,"predicted":1077,"corrected":1438,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461608100},"measured":740,"predicted":1078,"corrected":1440,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461609000},"measured":739,"predicted":1078,"corrected":1439,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461609900},"measured":739,"predicted":1083,"corrected":1451,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461610800},"measured":738,"predicted":1084,"corrected":1451,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461611700},"measured":737,"predicted":1088,"corrected":1458,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461612600},"measured":737,"predicted":1090,"corrected":1462,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461613500},"measured":736,"predicted":1091,"corrected":1464,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461614400},"measured":735,"predicted":1096,"corrected":1475,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461615300},"measured":735,"predicted":1097,"corrected":1475,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461616200},"measured":734,"predicted":1099,"corrected":1480,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461617100},"measured":734,"predicted":1103,"corrected":1486,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461618000},"measured":733,"predicted":1104,"corrected":1488,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461618900},"measured":732,"predicted":1108,"corrected":1496,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461619800},"measured":732,"predicted":1110,"corrected":1499,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461620700},"measured":732,"predicted":1112,"corrected":1503,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461621600},"measured":730,"predicted":1116,"corrected":1511,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461622500},"measured":730,"predicted":1116,"corrected":1511,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461623400},"measured":730,"predicted":1119,"corrected":1517,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461624300},"measured":729,"predicted":1120,"corrected":1518,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461625200},"measured":729,"predicted":1121,"corrected":1520,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461626100},"measured":728,"predicted":1123,"corrected":1524,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461627000},"measured":728,"predicted":1125,"corrected":1529,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461627900},"measured":726,"predicted":1129,"corrected":1535,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461628800},"measured":726,"predicted":1129,"corrected":1536,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461629700},"measured":726,"predicted":1129,"corrected":1537,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461630600},"measured":725,"predicted":1133,"corrected":1544,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461631500},"measured":725,"predicted":1133,"corrected":1542,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461632400},"measured":724,"predicted":1137,"corrected":1550,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461633300},"measured":724,"predicted":1136,"corrected":1549,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461634200},"measured":723,"predicted":1137,"corrected":1551,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461635100},"measured":723,"predicted":1140,"corrected":1558,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"},{"id":{"stationId":13600002,"timestamp":1461636000},"measured":721,"predicted":1142,"corrected":1560,"measuredStatus":"NORMAL","predictedStatus":"INUNDACAO"}]');
-        var data = JSON.parse('[{"id":{"stationId":13600002,"timestamp":1471834800},"measured":148,"predicted":129,"corrected":135,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471835700},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471836600},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471837500},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471838400},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471839300},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471840200},"measured":null,"predicted":123,"corrected":126,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471841100},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471842000},"measured":null,"predicted":123,"corrected":126,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471842900},"measured":null,"predicted":123,"corrected":126,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471843800},"measured":null,"predicted":124,"corrected":127,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471844700},"measured":null,"predicted":124,"corrected":128,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471845600},"measured":null,"predicted":124,"corrected":128,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471846500},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471847400},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471848300},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471849200},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471850100},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471851000},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471851900},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471852800},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471853700},"measured":null,"predicted":125,"corrected":130,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471854600},"measured":null,"predicted":125,"corrected":131,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471855500},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471856400},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471857300},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471858200},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471859100},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471860000},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471860900},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471861800},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471862700},"measured":null,"predicted":126,"corrected":133,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471863600},"measured":null,"predicted":128,"corrected":136,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471864500},"measured":null,"predicted":128,"corrected":136,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471865400},"measured":null,"predicted":128,"corrected":136,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471866300},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471867200},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471868100},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471869000},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471869900},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471870800},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471871700},"measured":null,"predicted":129,"corrected":139,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471872600},"measured":null,"predicted":130,"corrected":144,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471873500},"measured":null,"predicted":130,"corrected":142,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471874400},"measured":null,"predicted":129,"corrected":141,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471875300},"measured":null,"predicted":130,"corrected":144,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471876200},"measured":null,"predicted":129,"corrected":141,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471877100},"measured":null,"predicted":130,"corrected":144,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471878000},"measured":null,"predicted":130,"corrected":144,"measuredStatus":null,"predictedStatus":"NORMAL"}]');
-        // var data = JSON.parse('[{"id":{"stationId":13600002,"timestamp":1471794300},"measured":149,"predicted":131,"corrected":142,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471795200},"measured":149,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471796100},"measured":149,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471797000},"measured":146,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471797900},"measured":146,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471798800},"measured":145,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471799700},"measured":148,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471800600},"measured":148,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471801500},"measured":147,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471802400},"measured":147,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471803300},"measured":146,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471804200},"measured":148,"predicted":132,"corrected":144,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471805100},"measured":148,"predicted":131,"corrected":141,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471806000},"measured":148,"predicted":131,"corrected":141,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471806900},"measured":148,"predicted":131,"corrected":141,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471807800},"measured":149,"predicted":131,"corrected":141,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471808700},"measured":149,"predicted":131,"corrected":141,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471809600},"measured":149,"predicted":131,"corrected":141,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471810500},"measured":146,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471811400},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471812300},"measured":149,"predicted":131,"corrected":139,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471813200},"measured":148,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471814100},"measured":148,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471815000},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471815900},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471816800},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471817700},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471818600},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471819500},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471820400},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471821300},"measured":149,"predicted":131,"corrected":137,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471822200},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471823100},"measured":147,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471824000},"measured":149,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471824900},"measured":149,"predicted":131,"corrected":137,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471825800},"measured":148,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471826700},"measured":147,"predicted":129,"corrected":134,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471827600},"measured":148,"predicted":131,"corrected":138,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471828500},"measured":148,"predicted":129,"corrected":134,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471829400},"measured":148,"predicted":129,"corrected":134,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471830300},"measured":148,"predicted":129,"corrected":134,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471831200},"measured":148,"predicted":129,"corrected":133,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471832100},"measured":148,"predicted":129,"corrected":133,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471833000},"measured":148,"predicted":129,"corrected":133,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471833900},"measured":148,"predicted":129,"corrected":135,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471834800},"measured":148,"predicted":129,"corrected":135,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471835700},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471836600},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"},{"id":{"stationId":13600002,"timestamp":1471837500},"measured":null,"predicted":127,"corrected":132,"measuredStatus":null,"predictedStatus":"NORMAL"}]');
-        callback(data);
+        var river = JSON.parse('{"info":{"id":13600002,"name":"Rio Madeira","warningThreshold":1350,"floodThreshold":1400},"data":[{"timestamp":1472571900,"measured":163,"predicted":171,"measuredStatus":"NORMAL","predictedStatus":"NORMAL"},{"timestamp":1472574600,"measured":null,"predicted":170,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472575500,"measured":null,"predicted":169,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472576400,"measured":null,"predicted":162,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472577300,"measured":null,"predicted":164,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472578200,"measured":null,"predicted":167,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472579100,"measured":null,"predicted":163,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472580000,"measured":null,"predicted":168,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472580900,"measured":null,"predicted":161,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472581800,"measured":null,"predicted":165,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472582700,"measured":null,"predicted":165,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472583600,"measured":null,"predicted":168,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472584500,"measured":null,"predicted":163,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472585400,"measured":null,"predicted":161,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472586300,"measured":null,"predicted":160,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472587200,"measured":null,"predicted":168,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472588100,"measured":null,"predicted":161,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472589000,"measured":null,"predicted":162,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472589900,"measured":null,"predicted":162,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472590800,"measured":null,"predicted":161,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472591700,"measured":null,"predicted":162,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472592600,"measured":null,"predicted":157,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472593500,"measured":null,"predicted":160,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472594400,"measured":null,"predicted":154,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472595300,"measured":null,"predicted":154,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472596200,"measured":null,"predicted":159,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472597100,"measured":null,"predicted":154,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472598000,"measured":null,"predicted":149,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472598900,"measured":null,"predicted":162,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472599800,"measured":null,"predicted":154,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472600700,"measured":null,"predicted":153,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472601600,"measured":null,"predicted":151,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472602500,"measured":null,"predicted":157,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472603400,"measured":null,"predicted":161,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472604300,"measured":null,"predicted":152,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472605200,"measured":null,"predicted":151,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472606100,"measured":null,"predicted":159,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472607000,"measured":null,"predicted":161,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472607900,"measured":null,"predicted":158,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472608800,"measured":null,"predicted":163,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472609700,"measured":null,"predicted":151,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472610600,"measured":null,"predicted":153,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472611500,"measured":null,"predicted":157,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472612400,"measured":null,"predicted":158,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472613300,"measured":null,"predicted":157,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472614200,"measured":null,"predicted":158,"measuredStatus":null,"predictedStatus":"NORMAL"},{"timestamp":1472615100,"measured":null,"predicted":156,"measuredStatus":null,"predictedStatus":"NORMAL"}]}');
+        callback(river, timestamp);
       }
     });
   }
 
-  function drawWidget(data) {
-    if (!data) return;
+  function getAlertTimestamp(river) {
+    if (!river) return;
+    // Checks flood threshold
+    for (var i = 0; i < river.data.length; i++) {
+      if (river.data[i].predicted >= river.info.floodThreshold) {
+        return {
+          title: "Alerta de enchente",
+          description: "Ação evasiva é recomendada",
+          timestamp: data[i].id.timestamp
+        };
+      };
+    }
+    // Checks warning threshold
+    for (var i = 0; i < river.data.length; i++) {
+      if (river.data[i].predicted >= river.info.warningThreshold) {
+        return {
+          title: "Alerta de cheia",
+          description: "Esteja preparado",
+          timestamp: data[i].id.timestamp
+        };
+      };
+    }
+    return {
+      title: "Dia normal",
+      description: "Nenhuma alta prevista para as próximas horas",
+      timestamp: null
+    };
+  }
+
+  function drawWidget(river, timestamp) {
+    if (!river) return;
+
+    var data = river.data;
+
     var margin = {
           top: 50,
           right: 10,
@@ -102,107 +135,130 @@ var Alert = (function(window, undefined) {
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left");
-    x.domain(data.map(function(d) { return d.id.timestamp; }));
+    x.domain(data.map(function(d) { return d.timestamp; }));
     y.domain([d3.min(data, function(d) { return d.predicted; }), d3.max(data, function(d) { return d.predicted; })]);
 
-    // Get the timestamp of prediction
-    var dateTime = new Date(1471794300*1000);
-    var hours = dateTime.getHours();
-    var minutes = "0" + dateTime.getMinutes();
-    var time = hours + ':' + minutes.substr(-2);
-
     //Get alert info
-    var alertHour = "23h";
+    var alertTimestamp = getAlertTimestamp(river);
+    var alertHour = null
+    if (alertTimestamp.timestamp !== null) {
+      var date = new Date(alertTimestamp.timestamp*1000);
+      var hours = date.getHours();
+      var minutes = "0" + date.getMinutes();
+      alertHour = hours + ':' + minutes.substr(-2);
+    }
 
     var mapInfo = d3.select("#alerta-enchentes")
       .append("div")
         .attr("class", "alerta-enchentes-map-info")
         .style({
-          "padding": "20px 10px 20px 20px",
+          "width": "678px",
+          "padding": "20px",
           "background-color": "rgba(11, 51, 65, 0.8)",
-          "font": "16px arial,helvetica,sans-serif",
+          "font": "16px arial,sans-serif-light,sans-serif",
           "color": "#fff"
         });
       mapInfo.append("div")
         .attr("class", "alerta-enchentes-map-time-info")
         .style({
-          "font-weight": "bold",
-          "font-size": "22px"
+          "font-size": "25px"
         })
-        .html("Rio Acre");
+        .html(river.info.name);
       mapInfo.append("div")
-        .html(time);
+      .html(moment(timestamp).format('H:mm'));
+
+      // Alert info
       var alertInfo = mapInfo.append("div")
+        .attr("class", "alerta-enchentes-alert-info")
         .style({
-          "float": "left",
-          "padding-left": "10px"
+          "float": "left"
         })
         .append("div");
-      alertInfo.append("div")
-            .style({
-              "float": "left",
-              "margin-top": "10px",
-              "font-size": "60px"
-            })
-            .append("span")
-              .html(alertHour);
+      if (alertHour !== null) {
+        alertInfo.append("div")
+        .style({
+          "float": "left",
+          "margin-top": "10px",
+          "margin-right": "12px",
+          "font-size": "60px"
+        })
+        .append("span")
+        .html(alertHour);
+      }
       var alertInfoText = alertInfo.append("div")
         .style({
           "float": "left",
           "margin-top": "25px",
-          "margin-left": "12px",
           "font-size": "16px"
         });
       alertInfoText.append("div")
         .style({
           "font-size": "22px"
         })
-        .html("Alerta de enchente");
+        .html(alertTimestamp.title);
       alertInfoText.append("div")
-        .html("Ação evasiva é recomendada");
+        .html(alertTimestamp.description);
       var graph = mapInfo.append("div")
         .attr("class", "alerta-enchentes-graph");
 
+    // Graph
     var svg = graph.append("svg")
         .attr("width", "100%")
         .attr("viewBox", "0 0 "+viewBoxWidth+" "+viewBoxHeight)
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var limit = 1055;
     var domainMin = d3.min(data, function(d) { return d.predicted; });
     var domainMax = d3.max(data, function(d) { return d.predicted; });
-    if (domainMax < limit) {
-        var domainMax = limit;
+    if (domainMax < river.info.floodThreshold) {
+        var domainMax = river.info.floodThreshold;
     }
-    x.domain(data.map(function(d) { return d.id.timestamp; }));
+    x.domain(data.map(function(d) { return d.timestamp; }));
     y.domain([domainMin, domainMax]);
 
     // Draw lines
     svg.append("line")
       .attr({
         "x1": 0,
-        "y1": y(1020),
+        "y1": y(river.info.warningThreshold),
         "x2": width+10,
-        "y2": y(1020),
+        "y2": y(river.info.warningThreshold),
         "fill": "none",
         "stroke-width": "2px",
-        "opacity": 0.4,
-        "stroke-dasharray": 10,
+        "opacity": 1,
+        "stroke-dasharray": "10,5",
         "stroke": color("ALERTA")
       });
+    svg.append("text")
+      .attr({
+        "x": 0,
+        "y": y(river.info.warningThreshold) + 12,
+        "fill": color("ALERTA"),
+        "font-size": "10",
+        "font-family": "sans"
+      })
+      .text("Nível de alerta");
     svg.append("line")
       .attr({
         "fill": "none",
         "x1": 0,
-        "y1": y(1055),
+        "y1": y(river.info.floodThreshold),
         "x2": width+10,
-        "y2": y(1055),
+        "y2": y(river.info.floodThreshold),
         "stroke-width": "2px",
-        "opacity": 0.4,
-        "stroke-dasharray": 10,
+        "opacity": 1,
+        "stroke-dasharray": "10,5",
         "stroke": color("INUNDACAO")
       });
+    svg.append("text")
+      .attr({
+        "x": 0,
+        "y": y(river.info.floodThreshold) - 4,
+        "fill": color("INUNDACAO"),
+        "font-size": "10",
+        "font-family": "sans"
+      })
+      .text("Nível de enchente");
 
     var tooltip = svg.append("g")
       .attr("class", "alert-tooltip")
@@ -252,7 +308,7 @@ var Alert = (function(window, undefined) {
           .data(data);
         // Render bars
         bar.enter().append("rect")
-          .attr("x", function(d) { return x(d.id.timestamp); })
+          .attr("x", function(d) { return x(d.timestamp); })
           .attr("width", x.rangeBand())
           .attr("y", function(d) { return y(d.predicted); })
           .attr("height", function(d) { return height - y(d.predicted) + baseValue; })
@@ -261,7 +317,7 @@ var Alert = (function(window, undefined) {
           .on("mouseover", function(d) {
             d3.select(this).transition().duration(200).style("opacity", 1);
 
-            var date = new Date(d.id.timestamp*1000);
+            var date = new Date(d.timestamp*1000);
             var hours = date.getHours();
             var minutes = "0" + date.getMinutes();
             var time = hours + ':' + minutes.substr(-2);
@@ -270,7 +326,7 @@ var Alert = (function(window, undefined) {
             tooltip.transition()
                 .duration(200)
                 .style("opacity", 1);
-            var positionX = x(d.id.timestamp) - tooltipWidth/2 - x.rangeBand()/2;
+            var positionX = x(d.timestamp) - tooltipWidth/2;
             var positionY = y(d.predicted) - tooltipHeight - 40;
             tooltip.attr("transform", "translate(" + positionX + "," + positionY + ")");
             })
@@ -283,7 +339,7 @@ var Alert = (function(window, undefined) {
         // Render top bars
         bar.enter().append("rect")
           .attr("width", x.rangeBand())
-          .attr("x", function(d) { return x(d.id.timestamp); })
+          .attr("x", function(d) { return x(d.timestamp); })
           .attr("y", function(d) { return y(d.predicted); })
           .attr("fill", function(d) { return color(d.predictedStatus); })
           .attr("height", 2);
@@ -292,16 +348,15 @@ var Alert = (function(window, undefined) {
           .attr("fill", "#fff")
           .attr("font-size", "12px")
           .attr("text-anchor", "start")
-          .attr("x", function(d) { return x(d.id.timestamp)+x.rangeBand()+4; })
+          .attr("x", function(d) { return x(d.timestamp)+x.rangeBand()+4; })
           .attr("y", height + baseValue - 5)
           .text(function(d, i) {
-            var date = new Date(d.id.timestamp*1000);
-            var hours = date.getHours();
-            var minutes = "0" + date.getMinutes();
+            console.log();
+            var minutes = moment(d.timestamp*1000).format("mm");
             if (minutes === "00" && i !== data.length-1) {
-              return hours + ':' + minutes.substr(-2);
+              return moment(d.timestamp*1000).format("H:mm");
             }
-          });
+        });
 
     function type(d) {
       d.predicted = +d.predicted;
@@ -327,9 +382,13 @@ var Alert = (function(window, undefined) {
 
   loadScript('//d3js.org/d3.v3.min.js', function() {
     loadScript('//code.jquery.com/jquery-3.1.0.min.js', function() {
-      var url = getScriptUrl();
-      var params = getUrlParameters(url);
-      getData(params, drawWidget);
+      loadScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js', function() {
+        loadScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/locale/br.js', function() {
+          var url = getScriptUrl();
+          var params = getUrlParameters(url);
+          getData(params, drawWidget);
+        });
+      });
     });
   });
 
