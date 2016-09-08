@@ -79,9 +79,6 @@ var Alert = (function(window, undefined) {
   }
 
   function getData(params, callback) {
-
-    console.log(params.station);
-
     Alert.$.ajax({
       method: 'GET',
       url: 'http://alertas-enchentes-api.herokuapp.com/station/'+params.station+'/prediction',
@@ -188,14 +185,10 @@ var Alert = (function(window, undefined) {
       // Alert info
       var alertInfo = mapInfo.append("div")
         .attr("class", "alerta-enchentes-alert-info")
-        .style({
-          "float": "left"
-        })
         .append("div");
       if (alertHour !== null) {
         alertInfo.append("div")
         .style({
-          "float": "left",
           "margin-top": "10px",
           "margin-right": "12px",
           "font-size": "60px"
@@ -205,7 +198,6 @@ var Alert = (function(window, undefined) {
       }
       var alertInfoText = alertInfo.append("div")
         .style({
-          "float": "left",
           "margin-top": "25px",
           "font-size": "16px"
         });
@@ -216,10 +208,12 @@ var Alert = (function(window, undefined) {
         .html(alertTimestamp.title);
       alertInfoText.append("div")
         .html(alertTimestamp.description);
-      var graph = mapInfo.append("div")
-        .attr("class", "alerta-enchentes-graph");
 
     // Graph
+    if (river.data.length < 1) return;
+
+    var graph = mapInfo.append("div")
+    .attr("class", "alerta-enchentes-graph");
     var svg = graph.append("svg")
         .attr("width", "100%")
         .attr("viewBox", "0 0 "+viewBoxWidth+" "+viewBoxHeight)
