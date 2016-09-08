@@ -237,7 +237,7 @@ var Alert = (function(window, undefined) {
         "y2": y(river.info.warningThreshold),
         "fill": "none",
         "stroke-width": "2px",
-        "opacity": 1,
+        "opacity": 0.5,
         "stroke-dasharray": "10,5",
         "stroke": color("ALERTA")
       });
@@ -246,6 +246,7 @@ var Alert = (function(window, undefined) {
         "x": 0,
         "y": y(river.info.warningThreshold) + 12,
         "fill": color("ALERTA"),
+        "opacity": 0.5,
         "font-size": "10",
         "font-family": "sans"
       })
@@ -258,7 +259,7 @@ var Alert = (function(window, undefined) {
         "x2": width+10,
         "y2": y(river.info.floodThreshold),
         "stroke-width": "2px",
-        "opacity": 1,
+        "opacity": 0.5,
         "stroke-dasharray": "10,5",
         "stroke": color("INUNDACAO")
       });
@@ -267,6 +268,7 @@ var Alert = (function(window, undefined) {
         "x": 0,
         "y": y(river.info.floodThreshold) - 4,
         "fill": color("INUNDACAO"),
+        "opacity": 0.5,
         "font-size": "10",
         "font-family": "sans"
       })
