@@ -124,6 +124,8 @@ var Alert = (function(window, undefined) {
   function drawWidget(river, timestamp, htmlWrapper) {
     if (!river) return;
 
+    var d3Widget = d3;
+
     var data = river.data;
 
     var margin = {
@@ -140,18 +142,18 @@ var Alert = (function(window, undefined) {
         tooltipWidth = 50,
         tooltipHeight = 30;
 
-    var x = d3.scale.ordinal()
+    var x = d3Widget.scale.ordinal()
         .rangeRoundBands([0, width], 0);
-    var y = d3.scale.linear()
+    var y = d3Widget.scale.linear()
         .range([height, 0]);
-    var xAxis = d3.svg.axis()
+    var xAxis = d3Widget.svg.axis()
         .scale(x)
         .orient("bottom");
-    var yAxis = d3.svg.axis()
+    var yAxis = d3Widget.svg.axis()
         .scale(y)
         .orient("left");
     x.domain(data.map(function(d) { return d.timestamp; }));
-    y.domain([d3.min(data, function(d) { return d.predicted; }), d3.max(data, function(d) { return d.predicted; })]);
+    y.domain([d3Widget.min(data, function(d) { return d.predicted; }), d3Widget.max(data, function(d) { return d.predicted; })]);
 
     //Get alert info
     var alertTimestamp = getAlertTimestamp(river);
@@ -163,7 +165,7 @@ var Alert = (function(window, undefined) {
       alertHour = hours + ':' + minutes.substr(-2);
     }
 
-    var mapInfo = d3.select("#"+htmlWrapper)
+    var mapInfo = d3Widget.select("#"+htmlWrapper)
       .append("div")
         .attr("class", "alerta-enchentes-map-info")
         .style({
@@ -220,8 +222,8 @@ var Alert = (function(window, undefined) {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var domainMin = d3.min(data, function(d) { return d.predicted; });
-    var domainMax = d3.max(data, function(d) { return d.predicted; });
+    var domainMin = d3Widget.min(data, function(d) { return d.predicted; });
+    var domainMax = d3Widget.max(data, function(d) { return d.predicted; });
     if (domainMax < river.info.floodThreshold) {
         var domainMax = river.info.floodThreshold;
     }
@@ -329,7 +331,7 @@ var Alert = (function(window, undefined) {
           .attr("fill", function(d) { return color(d.predictedStatus); })
           .style("opacity", 0.4)
           .on("mouseover", function(d) {
-            d3.select(this).transition().duration(200).style("opacity", 1);
+            d3Widget.select(this).transition().duration(200).style("opacity", 1);
 
             var date = new Date(d.timestamp*1000);
             var hours = date.getHours();
@@ -345,7 +347,7 @@ var Alert = (function(window, undefined) {
             tooltip.attr("transform", "translate(" + positionX + "," + positionY + ")");
             })
         .on("mouseout", function(d) {
-          d3.select(this).transition().duration(200).style("opacity", 0.4);
+          d3Widget.select(this).transition().duration(200).style("opacity", 0.4);
           tooltip.transition()
             .duration(500)
             .style("opacity", 0);
@@ -393,7 +395,7 @@ var Alert = (function(window, undefined) {
     }
   }
 
-  loadScript('//d3js.org/d3.v3.min.js', function() {
+  loadScript('//d3Widgetjs.org/d3Widget.v3.min.js', function() {
     loadScript('//code.jquery.com/jquery-3.1.0.min.js', function() {
       loadScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js', function() {
         var url = getScriptUrl();
