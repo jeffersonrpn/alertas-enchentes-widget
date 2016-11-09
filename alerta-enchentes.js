@@ -94,6 +94,14 @@ var Alert = (function(window, undefined) {
 
   function getAlertTimestamp(river) {
     if (!river) return;
+
+    if (!river.data.length) {
+      return {
+        title: "--",
+        description: "Não foi possível obter dados",
+        timestamp: null
+      };
+    }
     // Checks flood threshold
     for (var i = 0; i < river.data.length; i++) {
       if (river.data[i].predicted >= river.info.floodThreshold) {
