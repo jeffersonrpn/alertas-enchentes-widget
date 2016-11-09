@@ -169,7 +169,7 @@ var Alert = (function(window, undefined) {
       .append("div")
         .attr("class", "alerta-enchentes-map-info")
         .style({
-          "width": "678px",
+          "width": "100%",
           "padding": "20px",
           "background-color": "rgba(11, 51, 65, 0.8)",
           "font": "16px arial,sans-serif-light,sans-serif",
@@ -395,7 +395,7 @@ var Alert = (function(window, undefined) {
     }
   }
 
-  loadScript('//d3Widgetjs.org/d3Widget.v3.min.js', function() {
+  loadScript('//d3js.org/d3.v3.min.js', function() {
     loadScript('//code.jquery.com/jquery-3.1.0.min.js', function() {
       loadScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js', function() {
         var url = getScriptUrl();
