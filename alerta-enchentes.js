@@ -57,7 +57,7 @@ var Alert = (function(window, undefined) {
     return params;
   }
 
-  function getWidgetLocation(callback) {
+  function getWidgetLocation(callback, errorCallback) {
     Alert.$('[data-alerta-enchentes-station]').each(function() {
       var
         location = Alert.$(this),
@@ -73,20 +73,20 @@ var Alert = (function(window, undefined) {
         station: station,
         timestamp: timestamp
       }
-      getData(params, callback)
+      getData(params, callback, errorCallback)
     });
   }
 
-  function getData(params, callback) {
+  function getData(params, callback, errorCallback) {
     Alert.$.ajax({
       method: 'GET',
-      url: 'http://localhost:8080/station/'+params.station+'/prediction?timestamp='+Math.floor(params.timestamp/1000),
+      url: 'https://enchentes.infoamazonia.org:8080/station/'+params.station+'/prediction?timestamp='+Math.floor(params.timestamp/1000),
       data: {},
       success: function(river) {
         callback(river, params.timestamp, params.htmlWrapper);
       },
       error: function(error) {
-        console.log("Error");
+        errorCallback(error, params.timestamp, params.htmlWrapper);
       }
     });
   }
@@ -211,7 +211,7 @@ var Alert = (function(window, undefined) {
     if (river.data.length < 1) return;
 
     var graph = mapInfo.append("div")
-    .attr("class", "alerta-enchentes-chart");
+      .attr("class", "alerta-enchentes-chart");
     var svg = graph.append("svg")
         .attr("width", "100%")
         .attr("viewBox", "0 0 "+viewBoxWidth+" "+viewBoxHeight)
@@ -491,9 +491,6 @@ var Alert = (function(window, undefined) {
 
       selectedValueText.attr("transform", "translate(" + xTooltip + "," + (y(d.predicted)-(tooltipHeight/2)+tooltipPadding) + ")");
       selectedValueRect.attr({"x": (xTooltip-(tooltipWidth/2)), "y": (y(d.predicted)-tooltipHeight+tooltipPadding)});
-      d3Widget.select('.alert-tip').style("visible", "visible");
-      d3Widget.select('.alert-measure').text(measured.toString()+"m".replace('.', ','));
-      d3Widget.select('.alert-time').text(formatTimeLiteral(d.timestamp));
     }
 
     function color(predictedStatus) {
@@ -511,16 +508,57 @@ var Alert = (function(window, undefined) {
           return "#1878f0";
       }
     }
+    mapInfo.append("div")
+      .attr("class", "alerta-enchentes-footer")
+      .style({
+          "text-align": "right"
+      })
+      .append("a")
+        .attr("href", "https://enchentes.infoamazonia.org/")
+        .style({
+            "color": "#fff",
+            "font-size": "12px"
+        })
+        .text("InfoAmazonia.org");
+  }
+
+  function drawError(error, timestamp, htmlWrapper) {
+    var d3Widget = d3;
+    var errorInfo = d3Widget.select("#"+htmlWrapper)
+      .append("div")
+        .attr("class", "alertas-enchentes-widget")
+        .style({
+          "padding": "20px",
+          "background-color": "rgba(11, 51, 65, 0.95)",
+          "font": "16px arial,sans-serif-light,sans-serif",
+          "color": "#fff"
+        });
+    errorInfo.append("div")
+      .attr("class", "alertas-enchentes-widget-title")
+      .style({
+        "font-size": "25px"
+      })
+      .html("Ops! Tivemos um problema.");
+    errorInfo.append("div")
+      .attr("class", "alerta-enchentes-footer")
+      .style({
+          "text-align": "right"
+      })
+      .append("a")
+        .attr("href", "https://enchentes.infoamazonia.org/")
+        .style({
+            "color": "#fff",
+            "font-size": "12px"
+        })
+        .text("InfoAmazonia.org");
   }
 
   loadScript('//d3js.org/d3.v3.min.js', function() {
     loadScript('//code.jquery.com/jquery-3.1.0.min.js', function() {
-      loadScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js', function() {
-        var url = getScriptUrl();
-        var params = getUrlParameters(url);
-        Alert.$ = Alert.jQuery = jQuery.noConflict(true);
-        getWidgetLocation(drawWidget)
-      });
+      var url = getScriptUrl();
+      var params = getUrlParameters(url);
+      Alert.$ = Alert.jQuery = jQuery.noConflict(true);
+      getWidgetLocation(drawWidget, drawError)
     });
   });
 
