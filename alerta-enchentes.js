@@ -65,9 +65,6 @@ var Alert = (function(window, undefined) {
         timestamp = location.attr('data-alerta-enchentes-timestamp'),
         htmlWrapper = 'alerta-enchentes-'+station;
       location.attr('id', htmlWrapper);
-      if (!timestamp) {
-        timestamp = new Date().getTime();
-      }
       var params = {
         htmlWrapper: htmlWrapper,
         station: station,
@@ -78,9 +75,13 @@ var Alert = (function(window, undefined) {
   }
 
   function getData(params, callback, errorCallback) {
+    var urlParams = "";
+    if (params.timestamp) {
+      urlParams = "?timestamp="+params.timestamp;
+    }
     Alert.$.ajax({
-      method: 'GET',
-      url: 'https://enchentes.infoamazonia.org:8080/station/'+params.station+'/prediction?timestamp='+Math.floor(params.timestamp/1000),
+      method: "GET",
+      url: "https://enchentes.infoamazonia.org:8080/station/"+params.station+"/prediction"+urlParams,
       data: {},
       success: function(river) {
         callback(river, params.timestamp, params.htmlWrapper);
@@ -150,7 +151,7 @@ var Alert = (function(window, undefined) {
 
     var bisectDate = d3Widget.bisector(function(d) { return d.timestamp; }).left;
     var formatTimeLiteral = d3Widget.time.format("%Hh%M");
-    var formatDateTimeLiteral = d3Widget.time.format("%Hh%M");
+    var formatDateTimeLiteral = d3Widget.time.format("%d/%m/%Y às %Hh%M");
 
     //Get alert info
     var alertTimestamp = getAlertTimestamp(river);
@@ -178,7 +179,7 @@ var Alert = (function(window, undefined) {
         })
         .html(river.info.riverName+" em "+river.info.cityName);
       mapInfo.append("div")
-        .html("Previsões a partir de "+formatTimeLiteral(new Date(river.params.timestamp*1000)));
+        .html("Previsões a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000)));
 
       // Alert info
       var alertInfo = mapInfo.append("div")
@@ -515,6 +516,7 @@ var Alert = (function(window, undefined) {
       })
       .append("a")
         .attr("href", "https://enchentes.infoamazonia.org/")
+        .attr("target", "_blank")
         .style({
             "color": "#fff",
             "font-size": "12px"
@@ -546,6 +548,7 @@ var Alert = (function(window, undefined) {
       })
       .append("a")
         .attr("href", "https://enchentes.infoamazonia.org/")
+        .attr("target", "_blank")
         .style({
             "color": "#fff",
             "font-size": "12px"
@@ -555,8 +558,6 @@ var Alert = (function(window, undefined) {
 
   loadScript('//d3js.org/d3.v3.min.js', function() {
     loadScript('//code.jquery.com/jquery-3.1.0.min.js', function() {
-      var url = getScriptUrl();
-      var params = getUrlParameters(url);
       Alert.$ = Alert.jQuery = jQuery.noConflict(true);
       getWidgetLocation(drawWidget, drawError)
     });
