@@ -93,6 +93,7 @@ var Alert = (function(window, undefined) {
   }
 
   function getAlertTimestamp(river) {
+    console.log(river);
     if (!river) return;
 
     if (!river.data.length) {
@@ -108,7 +109,7 @@ var Alert = (function(window, undefined) {
         return {
           title: "Alerta de enchente",
           description: "Ação evasiva é recomendada",
-          timestamp: data[i].id.timestamp
+          timestamp: river.data[i].timestamp
         };
       };
     }
@@ -118,7 +119,7 @@ var Alert = (function(window, undefined) {
         return {
           title: "Alerta de cheia",
           description: "Esteja preparado",
-          timestamp: data[i].id.timestamp
+          timestamp: river.data[i].timestamp
         };
       };
     }
