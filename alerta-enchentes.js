@@ -82,6 +82,7 @@ var Alert = (function(window, undefined) {
     Alert.$.ajax({
       method: "GET",
       url: "https://enchentes.infoamazonia.org:8080/station/"+params.station+"/prediction"+urlParams,
+      // url: "http://localhost:8080/station/"+params.station+"/prediction"+urlParams,
       data: {},
       success: function(river) {
         callback(river, params.timestamp, params.htmlWrapper);
@@ -510,19 +511,59 @@ var Alert = (function(window, undefined) {
           return "#1878f0";
       }
     }
-    mapInfo.append("div")
-      .attr("class", "alerta-enchentes-footer")
-      .style({
-          "text-align": "right"
-      })
-      .append("a")
-        .attr("href", "https://enchentes.infoamazonia.org/")
-        .attr("target", "_blank")
+    var errorInfo = d3Widget.select("#"+htmlWrapper)
+      .append("div")
+        .attr("class", "alertas-enchentes-widget")
         .style({
-            "color": "#fff",
-            "font-size": "12px"
+          "padding": "20px",
+          "background-color": "rgba(11, 51, 65, 0.95)",
+          "font": "16px arial,sans-serif-light,sans-serif",
+          "color": "#fff"
+        });
+    errorInfo.append("div")
+      .attr("class", "alertas-enchentes-widget-title")
+      .style({
+        "font-size": "25px"
+      })
+      .html("Ops! Tivemos um problema.");
+    var footer = d3Widget.select("#"+htmlWrapper)
+      .append("div")
+        .attr("class", "alerta-enchentes-footer")
+        .style({
+            "font-family": "sans-serif",
+            "font-weight": "bold",
+            "text-align": "right",
+            "height": "30px",
+            "background": "#101010",
+            "padding-right": "10px"
         })
-        .text("InfoAmazonia.org");
+        .append("a")
+          .attr("href", "https://enchentes.infoamazonia.org/")
+          .attr("target", "_blank")
+          .style({
+              "color": "#333",
+              "font-size": "14px",
+              "line-height": "30px",
+              "text-transform": "uppercase",
+              "text-decoration": "none",
+              "float": "right"
+          })
+          .text("InfoAmazonia")
+          .on("mouseover", function() {
+            d3.select(this).style({"color": "#FFF"});
+          })
+          .on("mouseout", function() {
+            d3.select(this).style({"color": "#333"});
+          })
+          .append("span")
+            .style({
+              "background": "transparent url(https://infoamazonia.org/wp-content/themes/infoamazonia-wptheme-3.0/img/logo-small.png) center no-repeat",
+              "display": "inline-block",
+              "width": "13px",
+              "height": "30px",
+              "margin-left": "7px",
+              "float": "right"
+            });
   }
 
   function drawError(error, timestamp, htmlWrapper) {
@@ -542,19 +583,44 @@ var Alert = (function(window, undefined) {
         "font-size": "25px"
       })
       .html("Ops! Tivemos um problema.");
-    errorInfo.append("div")
-      .attr("class", "alerta-enchentes-footer")
-      .style({
-          "text-align": "right"
-      })
-      .append("a")
-        .attr("href", "https://enchentes.infoamazonia.org/")
-        .attr("target", "_blank")
+    var footer = d3Widget.select("#"+htmlWrapper)
+      .append("div")
+        .attr("class", "alerta-enchentes-footer")
         .style({
-            "color": "#fff",
-            "font-size": "12px"
+            "font-family": "sans-serif",
+            "font-weight": "bold",
+            "text-align": "right",
+            "height": "30px",
+            "background": "#101010",
+            "padding-right": "10px"
         })
-        .text("InfoAmazonia.org");
+        .append("a")
+          .attr("href", "https://enchentes.infoamazonia.org/")
+          .attr("target", "_blank")
+          .style({
+              "color": "#333",
+              "font-size": "14px",
+              "line-height": "30px",
+              "text-transform": "uppercase",
+              "text-decoration": "none",
+              "float": "right"
+          })
+          .text("InfoAmazonia")
+          .on("mouseover", function() {
+            d3.select(this).style({"color": "#FFF"});
+          })
+          .on("mouseout", function() {
+            d3.select(this).style({"color": "#333"});
+          })
+          .append("span")
+            .style({
+              "background": "transparent url(https://infoamazonia.org/wp-content/themes/infoamazonia-wptheme-3.0/img/logo-small.png) center no-repeat",
+              "display": "inline-block",
+              "width": "13px",
+              "height": "30px",
+              "margin-left": "7px",
+              "float": "right"
+            });
   }
 
   loadScript('//d3js.org/d3.v3.min.js', function() {
