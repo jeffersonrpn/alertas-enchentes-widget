@@ -88,13 +88,13 @@ var Alert = (function(window, undefined) {
         callback(river, params.timestamp, params.htmlWrapper);
       },
       error: function(error) {
-        errorCallback(error, params.timestamp, params.htmlWrapper);
+        console.log(error);
+        // errorCallback(error, params.timestamp, params.htmlWrapper);
       }
     });
   }
 
   function getAlertTimestamp(river) {
-    console.log(river);
     if (!river) return;
 
     if (!river.data.length) {
@@ -154,6 +154,10 @@ var Alert = (function(window, undefined) {
     var bisectDate = d3Widget.bisector(function(d) { return d.timestamp; }).left;
     var formatTimeLiteral = d3Widget.time.format("%Hh%M");
     var formatDateTimeLiteral = d3Widget.time.format("%d/%m/%Y às %Hh%M");
+    var formatVolume = function(n) {
+      var m = Math.round((n * 0.01) * 100) / 100;
+      return m.toString().replace('.', ',')+"m";
+    };
 
     //Get alert info
     var alertTimestamp = getAlertTimestamp(river);
@@ -183,32 +187,71 @@ var Alert = (function(window, undefined) {
       mapInfo.append("div")
         .html("Previsões a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000))+" (horário local)");
 
-      // Alert info
-      var alertInfo = mapInfo.append("div")
-        .attr("class", "alerta-enchentes-alert-info")
-        .append("div");
-      if (alertHour !== null) {
-        alertInfo.append("div")
+      var mapInfoStatus = mapInfo.append("div")
         .style({
-          "margin-top": "10px",
-          "margin-right": "12px",
-          "font-size": "60px"
-        })
-        .append("span")
-        .html(alertHour);
-      }
-      var alertInfoText = alertInfo.append("div")
-        .style({
-          "margin-top": "25px",
-          "font-size": "16px"
+          "margin-top": "15px",
+          "margin-bottom": "15px",
+          "display": "flex"
         });
-      alertInfoText.append("div")
+      var mapInfoMeasuredStatus = mapInfoStatus.append("div")
+          .style({
+            "font-size": "1.6em",
+            "margin-right": "15px"
+          })
+          .append("div");
+      mapInfoMeasuredStatus.append("div")
+          .attr("id", "alertas-enchentes-widget-measurement-status")
+          .text(river.measurement.measuredStatus);
+      mapInfoMeasuredStatus.append("div")
+          .style({
+            "font-size": "0.8em"
+          })
+          .attr("id", "alertas-enchentes-widget-measurement-msg")
+          .text("Nível atual do rio em "+formatVolume(river.measurement.measured));
+
+      var mapInfoPredictionStatus = mapInfoStatus.append("div")
         .style({
-          "font-size": "22px"
+          "font-size": "1.6em",
+          "margin-right": "15px",
+          "margin-left": "60px"
         })
-        .html(alertTimestamp.title);
-      alertInfoText.append("div")
-        .html(alertTimestamp.description);
+        .append("div");
+      mapInfoPredictionStatus.append("div")
+          .attr("id", "alertas-enchentes-widget-prediction-status")
+          .text(river.prediction.predictedStatus);
+      mapInfoPredictionStatus.append("div")
+          .style({
+            "font-size": "0.8em"
+          })
+          .attr("id", "alertas-enchentes-widget-prediction-msg")
+          .text("Previsão de "+formatVolume(river.prediction.predicted)+" em "+river.info.predictionWindow+"h");
+
+      // Alert info
+      // var alertInfo = mapInfo.append("div")
+      //   .attr("class", "alerta-enchentes-alert-info")
+      //   .append("div");
+      // if (alertHour !== null) {
+      //   alertInfo.append("div")
+      //   .style({
+      //     "margin-top": "10px",
+      //     "margin-right": "12px",
+      //     "font-size": "60px"
+      //   })
+      //   .append("span")
+      //   .html(alertHour);
+      // }
+      // var alertInfoText = alertInfo.append("div")
+      //   .style({
+      //     "margin-top": "25px",
+      //     "font-size": "16px"
+      //   });
+      // alertInfoText.append("div")
+      //   .style({
+      //     "font-size": "22px"
+      //   })
+      //   .html(alertTimestamp.title);
+      // alertInfoText.append("div")
+      //   .html(alertTimestamp.description);
 
     // Chart
     if (river.data.length < 1) return;
@@ -511,21 +554,7 @@ var Alert = (function(window, undefined) {
           return "#1878f0";
       }
     }
-    var errorInfo = d3Widget.select("#"+htmlWrapper)
-      .append("div")
-        .attr("class", "alertas-enchentes-widget")
-        .style({
-          "padding": "20px",
-          "background-color": "rgba(11, 51, 65, 0.95)",
-          "font": "16px arial,sans-serif-light,sans-serif",
-          "color": "#fff"
-        });
-    errorInfo.append("div")
-      .attr("class", "alertas-enchentes-widget-title")
-      .style({
-        "font-size": "25px"
-      })
-      .html("Ops! Tivemos um problema.");
+
     var footer = d3Widget.select("#"+htmlWrapper)
       .append("div")
         .attr("class", "alerta-enchentes-footer")
@@ -570,7 +599,7 @@ var Alert = (function(window, undefined) {
     var d3Widget = d3;
     var errorInfo = d3Widget.select("#"+htmlWrapper)
       .append("div")
-        .attr("class", "alertas-enchentes-widget")
+        .attr("class", "alertas-enchentes-widget-error")
         .style({
           "padding": "20px",
           "background-color": "rgba(11, 51, 65, 0.95)",
@@ -578,7 +607,7 @@ var Alert = (function(window, undefined) {
           "color": "#fff"
         });
     errorInfo.append("div")
-      .attr("class", "alertas-enchentes-widget-title")
+      .attr("class", "alertas-enchentes-widget-error-title")
       .style({
         "font-size": "25px"
       })
