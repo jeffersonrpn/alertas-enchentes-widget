@@ -88,19 +88,18 @@ var Alert = (function(window, undefined) {
         callback(river, params.timestamp, params.htmlWrapper);
       },
       error: function(error) {
-        console.log(error);
-        // errorCallback(error, params.timestamp, params.htmlWrapper);
+        errorCallback(error, params.timestamp, params.htmlWrapper);
       }
     });
   }
 
   function getAlertTimestamp(river) {
-    if (!river) return;
+    if (!river.data) throw "Nenhum dado obtido";
 
     if (!river.data.length) {
       return {
         title: "--",
-        description: "Não foi possível obter dados",
+        description: "N&atilde;o foi poss&iacute;vel obter dados",
         timestamp: null
       };
     }
@@ -109,7 +108,7 @@ var Alert = (function(window, undefined) {
       if (river.data[i].predicted >= river.info.floodThreshold) {
         return {
           title: "Alerta de enchente",
-          description: "Ação evasiva é recomendada",
+          description: "Aç&atilde;o evasiva é recomendada",
           timestamp: river.data[i].timestamp
         };
       };
@@ -153,7 +152,7 @@ var Alert = (function(window, undefined) {
 
     var bisectDate = d3Widget.bisector(function(d) { return d.timestamp; }).left;
     var formatTimeLiteral = d3Widget.time.format("%Hh%M");
-    var formatDateTimeLiteral = d3Widget.time.format("%d/%m/%Y às %Hh%M");
+    var formatDateTimeLiteral = d3Widget.time.format("%d/%m/%Y &agrave;s %Hh%M");
     var formatVolume = function(n) {
       var m = Math.round((n * 0.01) * 100) / 100;
       return m.toString().replace('.', ',')+"m";
@@ -185,7 +184,7 @@ var Alert = (function(window, undefined) {
         })
         .html(river.info.riverName+" em "+river.info.cityName);
       mapInfo.append("div")
-        .html("Previsões a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000))+" (horário local)");
+        .html("Previs&otilde;es a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000))+" (horário local)");
 
       var mapInfoStatus = mapInfo.append("div")
         .style({
@@ -201,13 +200,13 @@ var Alert = (function(window, undefined) {
           .append("div");
       mapInfoMeasuredStatus.append("div")
           .attr("id", "alertas-enchentes-widget-measurement-status")
-          .text(river.measurement.measuredStatus);
+          .html(river.measurement.measuredStatus);
       mapInfoMeasuredStatus.append("div")
           .style({
             "font-size": "0.8em"
           })
           .attr("id", "alertas-enchentes-widget-measurement-msg")
-          .text("Nível atual do rio em "+formatVolume(river.measurement.measured));
+          .html("N&iacute;vel atual do rio em "+formatVolume(river.measurement.measured));
 
       var mapInfoPredictionStatus = mapInfoStatus.append("div")
         .style({
@@ -216,15 +215,21 @@ var Alert = (function(window, undefined) {
           "margin-left": "60px"
         })
         .append("div");
-      mapInfoPredictionStatus.append("div")
+      if (river.prediction.predictedStatus !== "INDISPONIVEL") {
+        mapInfoPredictionStatus.append("div")
           .attr("id", "alertas-enchentes-widget-prediction-status")
-          .text(river.prediction.predictedStatus);
-      mapInfoPredictionStatus.append("div")
+          .html(river.prediction.predictedStatus);
+        mapInfoPredictionStatus.append("div")
           .style({
             "font-size": "0.8em"
           })
           .attr("id", "alertas-enchentes-widget-prediction-msg")
-          .text("Previsão de "+formatVolume(river.prediction.predicted)+" em "+river.info.predictionWindow+"h");
+          .html("Previs&atilde;o de "+formatVolume(river.prediction.predicted)+" em "+river.info.predictionWindow+"h");
+      } else {
+        mapInfoPredictionStatus.append("div")
+          .attr("id", "alertas-enchentes-widget-prediction-status")
+          .html("Previs&atilde;o indispon&iacute;vel no momento");
+      }
 
       // Alert info
       // var alertInfo = mapInfo.append("div")
@@ -340,7 +345,7 @@ var Alert = (function(window, undefined) {
       "font-size": "10",
       "font-family": "sans"
     })
-    .text("Nível de atenção");
+    .html("N&iacute;vel de atenç&atilde;o");
     var alertLine = linesG.append("line")
       .attr({
         "x1": 0,
@@ -359,7 +364,7 @@ var Alert = (function(window, undefined) {
         "font-size": "10",
         "font-family": "sans"
       })
-      .text("Nível de alerta");
+      .html("N&iacute;vel de alerta");
     var floodLine = linesG.append("line")
       .attr({
         "fill": "none",
@@ -378,7 +383,7 @@ var Alert = (function(window, undefined) {
         "font-size": "10",
         "font-family": "sans"
       })
-      .text("Nível de enchente");
+      .html("N&iacute;vel de enchente");
     var predictionText = linesG.append("text")
       .attr({
         "fill": color("NORMAL"),
@@ -387,7 +392,7 @@ var Alert = (function(window, undefined) {
         "font-family": "sans",
         "text-anchor": "end"
       })
-      .text("Previsão");
+      .html("Previs&atilde;o");
 
     var dots = svg.append("g")
         .attr({
@@ -544,11 +549,15 @@ var Alert = (function(window, undefined) {
         case "NORMAL":
           return "#1878f0";
           break;
+        case "ATENCAO":
+          return "#FFE168";
+          break;
+          break;
         case "ALERTA":
-          return "#faea59";
+          return "#ebb03e";
           break;
         case "INUNDACAO":
-          return "#eb533e";
+          return "#e74c3c";
           break;
         default:
           return "#1878f0";
