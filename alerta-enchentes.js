@@ -148,7 +148,7 @@ var Alert = (function(window, undefined) {
         baseValue = 0,
         tooltipWidth = 125,
         tooltipHeight = 30,
-        tooltipPadding = -20;
+        tooltipPadding = -55;
 
     var bisectDate = d3Widget.bisector(function(d) { return d.timestamp; }).left;
     var formatTimeLiteral = d3Widget.time.format("%Hh%M");
@@ -199,14 +199,14 @@ var Alert = (function(window, undefined) {
           })
           .append("div");
       mapInfoMeasuredStatus.append("div")
-          .attr("id", "alertas-enchentes-widget-measurement-status")
-          .html(river.measurement.measuredStatus);
-      mapInfoMeasuredStatus.append("div")
           .style({
             "font-size": "0.8em"
           })
           .attr("id", "alertas-enchentes-widget-measurement-msg")
           .html("N&iacute;vel atual do rio em "+formatVolume(river.measurement.measured));
+      mapInfoMeasuredStatus.append("div")
+          .attr("id", "alertas-enchentes-widget-measurement-status")
+          .html(river.measurement.measuredStatus);
 
       var mapInfoPredictionStatus = mapInfoStatus.append("div")
         .style({
@@ -217,14 +217,14 @@ var Alert = (function(window, undefined) {
         .append("div");
       if (river.prediction.predictedStatus !== "INDISPONIVEL") {
         mapInfoPredictionStatus.append("div")
-          .attr("id", "alertas-enchentes-widget-prediction-status")
-          .html(river.prediction.predictedStatus);
-        mapInfoPredictionStatus.append("div")
           .style({
             "font-size": "0.8em"
           })
           .attr("id", "alertas-enchentes-widget-prediction-msg")
           .html("Previs&atilde;o de "+formatVolume(river.prediction.predicted)+" em "+river.info.predictionWindow+"h");
+        mapInfoPredictionStatus.append("div")
+          .attr("id", "alertas-enchentes-widget-prediction-status")
+          .html(river.prediction.predictedStatus);
       } else {
         mapInfoPredictionStatus.append("div")
           .attr("id", "alertas-enchentes-widget-prediction-status")
