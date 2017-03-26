@@ -192,12 +192,19 @@ var Alert = (function(window, undefined) {
           "margin-bottom": "15px",
           "display": "flex"
         });
+      var mapInfoMeasuredIcon = mapInfoStatus.append("div")
+          .style({
+            "font-size": "2.3em",
+            "width": "55px"
+          })
+          .html(getAlertIcon(river.measurement.measuredStatus));
       var mapInfoMeasuredStatus = mapInfoStatus.append("div")
           .style({
             "font-size": "1.6em",
             "margin-right": "15px"
           })
-          .append("div");
+          .append("div")
+           .attr("id", "alertas-enchentes-widget-icon");
       mapInfoMeasuredStatus.append("div")
           .style({
             "font-size": "0.8em"
@@ -208,14 +215,20 @@ var Alert = (function(window, undefined) {
           .attr("id", "alertas-enchentes-widget-measurement-status")
           .html(river.measurement.measuredStatus);
 
-      var mapInfoPredictionStatus = mapInfoStatus.append("div")
-        .style({
-          "font-size": "1.6em",
-          "margin-right": "15px",
-          "margin-left": "60px"
-        })
-        .append("div");
       if (river.prediction.predictedStatus !== "INDISPONIVEL") {
+        var mapInfoPredictionIcon = mapInfoStatus.append("div")
+        .style({
+          "font-size": "2.3em",
+          "width": "55px",
+          "margin-left": "10px"
+        })
+        .html(getAlertIcon(river.prediction.predictedStatus));
+        var mapInfoPredictionStatus = mapInfoStatus.append("div")
+          .style({
+            "font-size": "1.6em",
+            "margin-right": "15px"
+          })
+          .append("div");
         mapInfoPredictionStatus.append("div")
           .style({
             "font-size": "0.8em"
@@ -226,6 +239,13 @@ var Alert = (function(window, undefined) {
           .attr("id", "alertas-enchentes-widget-prediction-status")
           .html(river.prediction.predictedStatus);
       } else {
+      var mapInfoPredictionStatus = mapInfoStatus.append("div")
+        .style({
+          "font-size": "1.6em",
+          "margin-right": "15px",
+          "margin-left": "60px"
+        })
+        .append("div");
         mapInfoPredictionStatus.append("div")
           .attr("id", "alertas-enchentes-widget-prediction-status")
           .html("Previs&atilde;o indispon&iacute;vel no momento");
@@ -561,6 +581,14 @@ var Alert = (function(window, undefined) {
           break;
         default:
           return "#1878f0";
+      }
+    }
+
+    function getAlertIcon(status) {
+      if (status == "NORMAL") {
+        return '<svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g><g stroke="null" fill="#fff" id="svg_1"><path stroke="null" fill="#fff id="svg_2" d="m50.000001,11.399997c-21.256081,0 -38.599999,17.343918 -38.599999,38.599999s17.343918,38.599999 38.599999,38.599999c21.256081,0 38.599999,-17.343918 38.599999,-38.599999s-17.343918,-38.599999 -38.599999,-38.599999zm0,71.592566c-18.256756,0 -32.992567,-14.73581 -32.992567,-32.992567s14.73581,-32.992567 32.992567,-32.992567c18.256756,0 32.992567,14.73581 32.992567,32.992567s-14.73581,32.992567 -32.992567,32.992567z"/><path stroke="null" fill="#fff" id="svg_3" d="m65.90946,34.87297l-23.994594,23.994594l-10.693243,-10.693243c-1.043243,-1.043243 -2.868919,-1.043243 -3.912162,0c-1.043243,1.043243 -1.043243,2.868919 0,3.912162l12.649324,12.649324c0.521622,0.521622 1.173649,0.782432 1.956081,0.782432c0.782432,0 1.434459,-0.260811 1.956081,-0.782432l25.950675,-25.950675c1.043243,-1.043243 1.043243,-2.868919 0,-3.912162c-1.043243,-1.043243 -2.738513,-1.043243 -3.912162,0z"/></g></g></svg>';
+      } else {
+        return '<svg width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110"><g><g stroke="null" fill="'+color(status)+'" id="svg_7"><path stroke="null" fill="'+color(status)+'" d="m56.067027,16.150893c-1.247582,-2.160865 -3.571864,-3.503692 -6.067027,-3.503692s-4.819446,1.342827 -6.067027,3.503692l-35.018256,60.698309c-1.245718,2.15992 -1.244782,4.844655 0.001864,7.003648c1.247582,2.158057 3.571864,3.499956 6.065164,3.499956l70.036512,0c2.4933,0 4.817573,-1.341899 6.064227,-3.499956c1.247582,-2.159929 1.248518,-4.843727 0.001864,-7.003648l-35.01732,-60.698309zm30.97295,65.365538c-0.415551,0.719976 -1.190627,1.167273 -2.021721,1.167273l-70.036512,0c-0.831103,0 -1.60617,-0.447297 -2.021721,-1.167273c-0.415551,-0.719976 -0.415551,-1.61457 0,-2.334546l35.018256,-60.698309c0.414615,-0.719976 1.189691,-1.167282 2.021721,-1.167282s1.607106,0.447305 2.022657,1.167282l35.018256,60.698309c0.414615,0.719968 0.414615,1.61457 -0.000936,2.334546z" id="svg_1"/><path stroke="null" fill="'+color(status)+'" d="m50,31.323598c-3.86228,0 -7.003648,3.141376 -7.003648,7.003656c0,4.565448 0.550951,10.603521 1.403526,15.384685c1.32229,7.408926 2.892042,10.295368 5.600122,10.295368s4.277832,-2.886442 5.600122,-10.295368c0.852576,-4.781164 1.403526,-10.819237 1.403526,-15.384685c0,-3.86228 -3.141368,-7.003656 -7.003648,-7.003656zm0,26.068523c-1.168209,-4.028497 -2.334555,-12.242381 -2.334555,-19.064867c0,-1.287745 1.047747,-2.334555 2.334555,-2.334555s2.334546,1.04681 2.334546,2.334555c0,6.822485 -1.166337,15.036369 -2.334546,19.064867z" id="svg_2"/><path stroke="null" fill="'+color(status)+'" d="m50,68.676409c-2.574544,0 -4.669101,2.094557 -4.669101,4.669093s2.094557,4.669101 4.669101,4.669101s4.669101,-2.094557 4.669101,-4.669101s-2.094557,-4.669093 -4.669101,-4.669093z" id="svg_3"/></g></g></svg>';
       }
     }
 
