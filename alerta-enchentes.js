@@ -168,13 +168,16 @@ var Alert = (function(window, undefined) {
       alertHour = hours + ':' + minutes.substr(-2);
     }
 
+    var font = d3Widget.select("#"+htmlWrapper)
+      .html('<link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:700" rel="stylesheet">');
     var mapInfo = d3Widget.select("#"+htmlWrapper)
       .append("div")
         .attr("class", "alertas-enchentes-widget")
         .style({
           "padding": "20px",
           "background-color": "rgba(11, 51, 65, 0.95)",
-          "font": "16px arial,sans-serif-light,sans-serif",
+          "font-size": "16px",
+          "font-family": "'Open Sans', sans-serif",
           "color": "#fff"
         });
       mapInfo.append("div")
@@ -520,9 +523,10 @@ var Alert = (function(window, undefined) {
     axisSVG.call(xAxis);
     axisYSVG.call(yAxis);
     d3Widget.selectAll(".tick text").style({
-      "font-size": "10",
-      "font-family": "sans",
-      "fill": "#999"
+      "font-size": "10px",
+      "font-family": "'Open Sans'",
+      "fill": "#999",
+      "stroke": "none"
     });
     d3Widget.selectAll(".tick").style({"fill" : "#999"});
 
@@ -596,7 +600,7 @@ var Alert = (function(window, undefined) {
       .append("div")
         .attr("class", "alerta-enchentes-footer")
         .style({
-            "font-family": "sans-serif",
+            "font-family": "'Open Sans Condensed',sans-serif",
             "font-weight": "bold",
             "text-align": "right",
             "height": "30px",
@@ -608,7 +612,7 @@ var Alert = (function(window, undefined) {
           .attr("target", "_blank")
           .style({
               "color": "#333",
-              "font-size": "14px",
+              "font-size": "100%",
               "line-height": "30px",
               "text-transform": "uppercase",
               "text-decoration": "none",
@@ -616,10 +620,10 @@ var Alert = (function(window, undefined) {
           })
           .text("InfoAmazonia")
           .on("mouseover", function() {
-            d3.select(this).style({"color": "#FFF"});
+            d3.select(this).transition(200).style({"color": "#FFF"});
           })
           .on("mouseout", function() {
-            d3.select(this).style({"color": "#333"});
+            d3.select(this).transition(200).style({"color": "#333"});
           })
           .append("span")
             .style({
@@ -665,7 +669,7 @@ var Alert = (function(window, undefined) {
           .attr("target", "_blank")
           .style({
               "color": "#333",
-              "font-size": "14px",
+              "font-size": "100%",
               "line-height": "30px",
               "text-transform": "uppercase",
               "text-decoration": "none",
@@ -673,10 +677,10 @@ var Alert = (function(window, undefined) {
           })
           .text("InfoAmazonia")
           .on("mouseover", function() {
-            d3.select(this).style({"color": "#FFF"});
+            d3.select(this).transition(200).style({"color": "#FFF"});
           })
           .on("mouseout", function() {
-            d3.select(this).style({"color": "#333"});
+            d3.select(this).transition(200).style({"color": "#333"});
           })
           .append("span")
             .style({
