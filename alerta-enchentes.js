@@ -342,7 +342,7 @@ var Alert = (function(window, undefined) {
       "font-size": "10",
       "font-family": "sans"
     })
-    .html("N&iacute;vel de atenç&atilde;o");
+    .html("N&iacute;vel de aten&ccedil;&atilde;o");
     var alertLine = linesG.append("line")
       .attr({
         "x1": 0,
