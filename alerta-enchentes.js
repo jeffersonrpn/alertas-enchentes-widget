@@ -486,11 +486,14 @@ var Alert = (function(window, undefined) {
     floodText.attr({
       "y": y(river.info.floodThreshold) - 4,
     });
-    predictionText.attr({
-      "x": x(data2[data2.length-1].timestamp),
-      "y": y(data2[data2.length-1].predicted) - 4,
-    });
-
+    if (data2.length) {
+      predictionText.attr({
+        "x": x(data2[data2.length-1].timestamp),
+        "y": y(data2[data2.length-1].predicted) - 4,
+      }).style("visibility", "visible");
+    } else {
+      predictionText.style("visibility", "hidden");
+    }
     areaSVG.datum(data).attr("d", valuearea);
     line2SVG.datum(data2).attr("d", valueline2);
 
