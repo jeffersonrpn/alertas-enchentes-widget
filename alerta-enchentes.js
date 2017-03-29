@@ -136,19 +136,19 @@ var Alert = (function(window, undefined) {
     var d3Widget = d3;
 
     var margin = {
-          top: 50,
+          top: 35,
           right: 10,
           bottom: 30,
           left: 30
         },
         width = 600 - margin.left - margin.right,
-        height = 300 - margin.top - margin.bottom,
+        height = 220 - margin.top - margin.bottom,
         viewBoxWidth = width + margin.left + margin.right,
         viewBoxHeight = height + margin.top + margin.bottom,
         baseValue = 0,
-        tooltipWidth = 125,
+        tooltipWidth = 170,
         tooltipHeight = 30,
-        tooltipPadding = -55;
+        tooltipPadding = -35;
 
     var bisectDate = d3Widget.bisector(function(d) { return d.timestamp; }).left;
     var formatTimeLiteral = d3Widget.time.format("%Hh%M");
@@ -169,7 +169,8 @@ var Alert = (function(window, undefined) {
     }
 
     var font = d3Widget.select("#"+htmlWrapper)
-      .html('<link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:700" rel="stylesheet">');
+      .html('<link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:700" rel="stylesheet">')
+      .html('<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">');
     var mapInfo = d3Widget.select("#"+htmlWrapper)
       .append("div")
         .attr("class", "alertas-enchentes-widget")
@@ -177,15 +178,15 @@ var Alert = (function(window, undefined) {
           "padding": "20px",
           "background-color": "rgba(11, 51, 65, 0.95)",
           "font-size": "16px",
-          "font-family": "'Open Sans', sans-serif",
+          "font-family": "'Montserrat', sans-serif",
           "color": "#fff"
         });
       mapInfo.append("div")
         .attr("class", "alertas-enchentes-widget-title")
         .style({
-          "font-size": "25px"
+          "font-size": "22px"
         })
-        .html(river.info.riverName+" em "+river.info.cityName);
+        .html("<strong>"+river.info.riverName+"</strong> em "+river.info.cityName);
       mapInfo.append("div")
         .html("Previs&otilde;es a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000))+" (horário local)");
 
@@ -203,14 +204,14 @@ var Alert = (function(window, undefined) {
           .html(getAlertIcon(river.measurement.measuredStatus));
       var mapInfoMeasuredStatus = mapInfoStatus.append("div")
           .style({
-            "font-size": "1.6em",
+            "font-size": "16px",
             "margin-right": "15px"
           })
           .append("div")
            .attr("id", "alertas-enchentes-widget-icon");
       mapInfoMeasuredStatus.append("div")
           .style({
-            "font-size": "0.8em"
+            "font-size": "16px"
           })
           .attr("id", "alertas-enchentes-widget-measurement-msg")
           .html("N&iacute;vel atual do rio em "+formatVolume(river.measurement.measured));
@@ -228,13 +229,13 @@ var Alert = (function(window, undefined) {
         .html(getAlertIcon(river.prediction.predictedStatus));
         var mapInfoPredictionStatus = mapInfoStatus.append("div")
           .style({
-            "font-size": "1.6em",
+            "font-size": "16px",
             "margin-right": "15px"
           })
           .append("div");
         mapInfoPredictionStatus.append("div")
           .style({
-            "font-size": "0.8em"
+            "font-size": "16px"
           })
           .attr("id", "alertas-enchentes-widget-prediction-msg")
           .html("Previs&atilde;o de "+formatVolume(river.prediction.predicted)+" em "+river.info.predictionWindow+"h");
@@ -244,7 +245,7 @@ var Alert = (function(window, undefined) {
       } else {
       var mapInfoPredictionStatus = mapInfoStatus.append("div")
         .style({
-          "font-size": "1.6em",
+          "font-size": "16px",
           "margin-right": "15px",
           "margin-left": "60px"
         })
@@ -253,33 +254,6 @@ var Alert = (function(window, undefined) {
           .attr("id", "alertas-enchentes-widget-prediction-status")
           .html("Previs&atilde;o indispon&iacute;vel no momento");
       }
-
-      // Alert info
-      // var alertInfo = mapInfo.append("div")
-      //   .attr("class", "alerta-enchentes-alert-info")
-      //   .append("div");
-      // if (alertHour !== null) {
-      //   alertInfo.append("div")
-      //   .style({
-      //     "margin-top": "10px",
-      //     "margin-right": "12px",
-      //     "font-size": "60px"
-      //   })
-      //   .append("span")
-      //   .html(alertHour);
-      // }
-      // var alertInfoText = alertInfo.append("div")
-      //   .style({
-      //     "margin-top": "25px",
-      //     "font-size": "16px"
-      //   });
-      // alertInfoText.append("div")
-      //   .style({
-      //     "font-size": "22px"
-      //   })
-      //   .html(alertTimestamp.title);
-      // alertInfoText.append("div")
-      //   .html(alertTimestamp.description);
 
     // Chart
     if (river.data.length < 1) return;
@@ -313,7 +287,7 @@ var Alert = (function(window, undefined) {
     var yAxis = d3Widget.svg.axis()
         .scale(y)
         .orient("left")
-        .ticks(12)
+        .ticks(6)
         .tickFormat(function(d) {
           return Math.round((d * 0.01) * 100) / 100
         });
@@ -524,7 +498,7 @@ var Alert = (function(window, undefined) {
     axisYSVG.call(yAxis);
     d3Widget.selectAll(".tick text").style({
       "font-size": "10px",
-      "font-family": "'Open Sans'",
+      "font-family": "'Montserrat'",
       "fill": "#999",
       "stroke": "none"
     });
@@ -612,7 +586,7 @@ var Alert = (function(window, undefined) {
           .attr("target", "_blank")
           .style({
               "color": "#333",
-              "font-size": "100%",
+              "font-size": "14px",
               "line-height": "30px",
               "text-transform": "uppercase",
               "text-decoration": "none",
@@ -669,7 +643,7 @@ var Alert = (function(window, undefined) {
           .attr("target", "_blank")
           .style({
               "color": "#333",
-              "font-size": "100%",
+              "font-size": "14px",
               "line-height": "30px",
               "text-transform": "uppercase",
               "text-decoration": "none",
