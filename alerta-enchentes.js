@@ -521,6 +521,7 @@ var Alert = (function(window, undefined) {
     }
 
     function mousemove() {
+      if (!data2.length) return;
       var
         x0 = x.invert(d3Widget.mouse(this)[0]),
         i = bisectDate(data2, x0, 1),
