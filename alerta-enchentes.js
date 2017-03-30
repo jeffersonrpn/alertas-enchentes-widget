@@ -242,17 +242,6 @@ var Alert = (function(window, undefined) {
         mapInfoPredictionStatus.append("div")
           .attr("id", "alertas-enchentes-widget-prediction-status")
           .html(river.prediction.predictedStatus);
-      } else {
-      var mapInfoPredictionStatus = mapInfoStatus.append("div")
-        .style({
-          "font-size": "16px",
-          "margin-right": "15px",
-          "margin-left": "60px"
-        })
-        .append("div");
-        mapInfoPredictionStatus.append("div")
-          .attr("id", "alertas-enchentes-widget-prediction-status")
-          .html("Previs&atilde;o indispon&iacute;vel no momento");
       }
 
     // Chart
@@ -513,15 +502,18 @@ var Alert = (function(window, undefined) {
       .on("mousemove", mousemove);
 
     function mouseover() {
+      if (!data2.length) return;
       selectedValue.style("display", null);
     }
 
     function mouseout() {
+      if (!data2.length) return;
       selectedValue.style("display", "none");
     }
 
     function mousemove() {
       if (!data2.length) return;
+
       var
         x0 = x.invert(d3Widget.mouse(this)[0]),
         i = bisectDate(data2, x0, 1),
