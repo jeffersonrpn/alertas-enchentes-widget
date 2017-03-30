@@ -188,7 +188,7 @@ var Alert = (function(window, undefined) {
         })
         .html("<strong>"+river.info.riverName+"</strong> em "+river.info.cityName);
       mapInfo.append("div")
-        .html("Previs&otilde;es a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000))+" (horário local)");
+        .html("Previs&otilde;es a partir de "+formatDateTimeLiteral(new Date(river.params.timestamp*1000))+" (hor&aacute;rio local)");
 
       var mapInfoStatus = mapInfo.append("div")
         .style({
